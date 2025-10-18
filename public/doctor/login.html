@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Login - EHR Chain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-image: linear-gradient(to right bottom, #06b6d4, #22c55e); 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center">
+    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl w-full max-w-md text-white border border-white/20">
+        <h2 class="text-3xl font-bold text-center mb-6">Doctor Login</h2>
+        <form id="loginForm">
+            <div class="mb-4">
+                <label for="mailId" class="block mb-2 text-sm font-medium">Email Address</label>
+                <input type="email" id="mailId" name="mailId" required class="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-2 focus:ring-2 focus:ring-pink-500 focus:outline-none placeholder-white/60">
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block mb-2 text-sm font-medium">Password</label>
+                <input type="password" id="password" name="password" required class="w-full bg-white/20 border border-white/30 rounded-lg px-4 py-2 focus:ring-2 focus:ring-pink-500 focus:outline-none">
+            </div>
+            <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-orange-500 text-white font-bold py-3 px-4 rounded-lg hover:scale-105 transition-transform duration-300">Login</button>
+        </form>
+        <p class="text-center mt-4 text-sm">Don't have an account? <a href="/doctor/register.html" class="font-bold hover:underline">Register here</a></p>
+        <div id="message" class="mt-4 text-center"></div>
+    </div>
+    <script>
+        // This script will handle the form submission.
+        // 1. It will listen for the form's 'submit' event.
+        // 2. It will gather the email and password from the input fields.
+        // 3. It will send a POST request to the '/api/auth/login' endpoint on your server.
+        // 4. Upon a successful login response, it will save user details (e.g., in localStorage) and redirect to 'doctor_dashboard.html'.
+        // 5. If there's an error, it will display the error message in the #message div.
+        
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const mailId = document.getElementById('mailId').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ mailId, password, role: 'Doctor' }),
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    messageDiv.textContent = 'Login successful! Redirecting...';
+                    messageDiv.style.color = '#34d399'; // Green color for success
+                    // Store user info if needed, e.g., for dashboard display
+                    localStorage.setItem('ehrUser', JSON.stringify(result.user));
+                    window.location.href = '/doctor/doctor_dashboard.html';
+                } else {
+                    messageDiv.textContent = result.message;
+                    messageDiv.style.color = '#f87171'; // Red color for error
+                }
+            } catch (error) {
+                messageDiv.textContent = 'An error occurred. Please try again.';
+                messageDiv.style.color = '#f87171';
+            }
+        });
+    </script>
+</body>
+</html>

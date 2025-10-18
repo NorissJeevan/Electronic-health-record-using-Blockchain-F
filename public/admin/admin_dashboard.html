@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - EHR Chain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-image: linear-gradient(to right bottom, #06b6d4, #22c55e); 
+        }
+        .card { 
+            background-color: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+        }
+        .input-field { 
+            background: rgba(255, 255, 255, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: white;
+        }
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .input-field:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #ec4899; /* Pink ring on focus */
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+    <header class="bg-black/20 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Admin Dashboard</h1>
+            <div>
+                <span id="userName" class="mr-4"></span>
+                <button id="logoutBtn" class="bg-red-500 px-4 py-2 rounded-lg text-sm font-bold hover:bg-red-600 transition-colors">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="card p-6 rounded-2xl">
+                <h2 class="text-2xl font-bold mb-4">Add New Medical Record</h2>
+                <form id="addRecordForm">
+                    <div class="mb-4">
+                        <label for="patientMailId" class="block mb-2 text-sm">Patient Email Address</label>
+                        <input type="email" id="patientMailId" required class="w-full input-field" placeholder="patient@example.com">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <input type="text" name="bloodGroup" placeholder="Blood Group (e.g., O+)" class="input-field">
+                        <input type="number" step="0.1" name="bmi" placeholder="BMI" class="input-field">
+                        <input type="number" step="0.1" name="hemoglobin" placeholder="Hemoglobin (g/dL)" class="input-field">
+                        <input type="number" name="heartRate" placeholder="Heart Rate (bpm)" class="input-field">
+                    </div>
+                    <div>
+                         <textarea name="healthCondition" rows="3" placeholder="Health Condition / Notes..." class="w-full input-field"></textarea>
+                    </div>
+                    <button type="submit" class="w-full mt-4 bg-gradient-to-r from-pink-500 to-orange-500 font-bold py-3 rounded-lg hover:scale-105 transition-transform">Add Record to Blockchain</button>
+                </form>
+                 <div id="addRecordMessage" class="mt-4 text-center font-medium"></div>
+            </div>
+
+            <div class="card p-6 rounded-2xl">
+                <h2 class="text-2xl font-bold mb-4">View Patient Records</h2>
+                <form id="viewRecordsForm" class="flex gap-2">
+                    <input type="email" id="viewPatientMailId" placeholder="Enter Patient Email to verify access" required class="flex-grow input-field">
+                    <button type="submit" class="bg-blue-600 font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">Fetch Records</button>
+                </form>
+                <div id="recordsContainer" class="mt-4 space-y-4 max-h-[24rem] overflow-y-auto pr-2">
+                    </div>
+                 <div id="viewRecordsMessage" class="mt-4 text-center font-medium"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('ehrUser'));
+            if (!user || user.role !== 'Admin') {
+                window.location.href = '/admin/admin_login.html';
+                return;
+            }
+            document.getElementById('userName').textContent = `Welcome, ${user.name}`;
+
+            const addRecordForm = document.getElementById('addRecordForm');
+            const addRecordMessage = document.getElementById('addRecordMessage');
+            const viewRecordsForm = document.getElementById('viewRecordsForm');
+            const viewRecordsMessage = document.getElementById('viewRecordsMessage');
+            const recordsContainer = document.getElementById('recordsContainer');
+            
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('ehrUser');
+                window.location.href = '/index.html';
+            });
+
+            // Handle Add Record
+            addRecordForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(addRecordForm);
+                const data = Object.fromEntries(formData.entries());
+                data.patientMailId = document.getElementById('patientMailId').value;
+                
+                addRecordMessage.textContent = 'Submitting record to blockchain...';
+                addRecordMessage.style.color = 'white';
+
+                try {
+                    const response = await fetch('/api/records/add', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        addRecordMessage.textContent = 'Record added successfully!';
+                        addRecordMessage.style.color = '#34d399';
+                        addRecordForm.reset();
+                    } else {
+                        throw new Error(result.message);
+                    }
+                } catch (error) {
+                    addRecordMessage.textContent = `Error: ${error.message}`;
+                    addRecordMessage.style.color = '#f87171';
+                }
+            });
+
+            // Handle View Records
+            viewRecordsForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const patientMailId = document.getElementById('viewPatientMailId').value;
+                
+                recordsContainer.innerHTML = ''; // Clear previous results
+                viewRecordsMessage.textContent = 'Fetching records...';
+                viewRecordsMessage.style.color = 'white';
+
+                try {
+                    // This is a conceptual endpoint. The server would check blockchain permissions.
+                    const response = await fetch(`/api/professional/view-patient-records/${patientMailId}`);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        if (result.records.length === 0) {
+                            viewRecordsMessage.textContent = 'No accessible records found for this patient.';
+                            viewRecordsMessage.style.color = 'white';
+                        } else {
+                            viewRecordsMessage.textContent = '';
+                            result.records.forEach(record => {
+                                const recordEl = document.createElement('div');
+                                recordEl.className = 'bg-black/20 p-4 rounded-lg';
+                                recordEl.innerHTML = `
+                                    <p class="text-xs text-white/60">Tx: ${record.blockchainTxHash.substring(0, 16)}...</p>
+                                    <h4 class="font-bold">Record from ${new Date(record.issueTimestamp).toLocaleDateString()}</h4>
+                                    <p class="text-sm"><strong>Blood Group:</strong> ${record.recordData.bloodGroup || 'N/A'}</p>
+                                    <p class="text-sm"><strong>BMI:</strong> ${record.recordData.bmi || 'N/A'}</p>
+                                    <p class="text-sm"><strong>Notes:</strong> ${record.recordData.healthCondition || 'N/A'}</p>
+                                `;
+                                recordsContainer.appendChild(recordEl);
+                            });
+                        }
+                    } else {
+                        throw new Error(result.message);
+                    }
+                } catch (error) {
+                    viewRecordsMessage.textContent = `Error: ${error.message}`;
+                    viewRecordsMessage.style.color = '#f87171';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

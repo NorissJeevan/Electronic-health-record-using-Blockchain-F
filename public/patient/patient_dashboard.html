@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - EHR Chain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-image: linear-gradient(to right bottom, #06b6d4, #22c55e); 
+        }
+        .card { 
+            background-color: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+        }
+        .input-field { 
+            background: rgba(255, 255, 255, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: white;
+        }
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .input-field:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #ec4899; /* Pink ring on focus */
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+    <header class="bg-black/20 p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Patient Dashboard</h1>
+            <div>
+                <span id="userName" class="mr-4"></span>
+                <button id="logoutBtn" class="bg-red-500 px-4 py-2 rounded-lg text-sm font-bold hover:bg-red-600 transition-colors">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <h2 class="text-3xl font-bold mb-6">Your Medical Records</h2>
+        <div id="recordsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        <div id="message" class="text-center text-lg font-medium mt-8"></div>
+    </main>
+
+    <div id="shareModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="card rounded-2xl p-8 w-full max-w-md">
+            <h3 class="text-2xl font-bold mb-4">Share Medical Record</h3>
+            <form id="shareForm">
+                <input type="hidden" id="recordHashToShare">
+                <div class="mb-4">
+                    <label for="shareWithEmail" class="block mb-2 text-sm">Doctor/Admin Email Address</label>
+                    <input type="email" id="shareWithEmail" required class="w-full input-field" placeholder="doctor@example.com">
+                </div>
+                <div class="flex gap-4 mt-6">
+                    <button type="button" id="cancelShare" class="w-full bg-white/20 py-2 rounded-lg hover:bg-white/30 transition-colors">Cancel</button>
+                    <button type="submit" class="w-full bg-gradient-to-r from-pink-500 to-orange-500 font-bold py-2 rounded-lg hover:scale-105 transition-transform">Grant Access</button>
+                </div>
+            </form>
+            <div id="shareMessage" class="mt-4 text-center font-medium"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('ehrUser'));
+            if (!user || user.role !== 'Patient') {
+                window.location.href = '/patient/login.html';
+                return;
+            }
+            document.getElementById('userName').textContent = `Welcome, ${user.name}`;
+
+            const recordsGrid = document.getElementById('recordsGrid');
+            const messageDiv = document.getElementById('message');
+            const shareModal = document.getElementById('shareModal');
+            const shareForm = document.getElementById('shareForm');
+            const cancelShareBtn = document.getElementById('cancelShare');
+            const shareMessage = document.getElementById('shareMessage');
+            const recordHashInput = document.getElementById('recordHashToShare');
+
+            // --- Smart Contract Details (Replace with your actual details) ---
+            const contractAddress = 'YOUR_DEPLOYED_EHRREGISTRY_CONTRACT_ADDRESS';
+            const contractABI = [ /* PASTE YOUR EHRREGISTRY ABI HERE */ ];
+
+            // Function to fetch and display records
+            async function loadRecords() {
+                messageDiv.textContent = 'Loading your records...';
+                recordsGrid.innerHTML = '';
+                try {
+                    const response = await fetch(`/api/patient/records/${user.mailId}`);
+                    const result = await response.json();
+                    if (!result.success) throw new Error(result.message);
+
+                    if (result.records.length === 0) {
+                        messageDiv.textContent = "You don't have any medical records yet.";
+                    } else {
+                        messageDiv.textContent = '';
+                        result.records.forEach(record => {
+                            const recordCard = document.createElement('div');
+                            recordCard.className = 'card rounded-2xl p-6 flex flex-col';
+                            recordCard.innerHTML = `
+                                <div>
+                                    <p class="text-xs text-white/60">Tx: ${record.blockchainTxHash.substring(0, 16)}...</p>
+                                    <h3 class="text-xl font-bold mb-2">Health Record</h3>
+                                    <div class="space-y-1 text-sm mb-4">
+                                        <p><strong>Issued:</strong> ${new Date(record.issueTimestamp).toLocaleDateString()}</p>
+                                        <p><strong>Blood Group:</strong> ${record.recordData.bloodGroup || 'N/A'}</p>
+                                        <p><strong>BMI:</strong> ${record.recordData.bmi || 'N/A'}</p>
+                                        <p><strong>Notes:</strong> ${record.recordData.healthCondition || 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <button class="share-btn w-full mt-auto bg-blue-600 font-bold py-2 rounded-lg hover:bg-blue-700 transition-colors" data-record-hash="${record.recordHash}">
+                                    Share Access
+                                </button>
+                            `;
+                            recordsGrid.appendChild(recordCard);
+                        });
+                    }
+                } catch (error) {
+                    messageDiv.textContent = `Error: ${error.message}`;
+                    messageDiv.style.color = '#f87171';
+                }
+            }
+
+            // Handle sharing
+            recordsGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('share-btn')) {
+                    const recordHash = e.target.dataset.recordHash;
+                    recordHashInput.value = recordHash;
+                    shareMessage.textContent = '';
+                    shareForm.reset();
+                    shareModal.classList.remove('hidden');
+                }
+            });
+
+            cancelShareBtn.addEventListener('click', () => {
+                shareModal.classList.add('hidden');
+            });
+            
+            shareForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const recordHash = recordHashInput.value;
+                const shareWithEmail = document.getElementById('shareWithEmail').value;
+                
+                shareMessage.textContent = 'Processing...';
+                shareMessage.style.color = 'white';
+
+                try {
+                    // 1. Get the recipient's Ethereum address from the server
+                    const addrRes = await fetch(`/api/users/eth-address/${shareWithEmail}`);
+                    const addrResult = await addrRes.json();
+                    if (!addrResult.success) throw new Error(addrResult.message);
+                    const granteeAddress = addrResult.ethAddress;
+
+                    // 2. Connect to MetaMask and send transaction
+                    if (typeof window.ethereum === 'undefined') {
+                        throw new Error('MetaMask is not installed.');
+                    }
+                    shareMessage.textContent = 'Please approve the transaction in MetaMask...';
+                    
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+                    await provider.send("eth_requestAccounts", []);
+                    const signer = provider.getSigner();
+                    const contract = new ethers.Contract(contractAddress, contractABI, signer);
+                    
+                    const tx = await contract.grantAccess(recordHash, granteeAddress);
+                    await tx.wait(); // Wait for transaction to be mined
+
+                    shareMessage.textContent = 'Access granted successfully!';
+                    shareMessage.style.color = '#34d399';
+                    
+                    setTimeout(() => {
+                        shareModal.classList.add('hidden');
+                    }, 2000);
+
+                } catch (error) {
+                    shareMessage.textContent = `Error: ${error.message}`;
+                    shareMessage.style.color = '#f87171';
+                }
+            });
+
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.removeItem('ehrUser');
+                window.location.href = '/index.html';
+            });
+            
+            // Initial load
+            loadRecords();
+        });
+    </script>
+</body>
+</html>

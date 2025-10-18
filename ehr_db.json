@@ -1,0 +1,83 @@
+{
+    "xpertieee@gmail.com": {
+        "name": "Madhan M",
+        "mailId": "xpertieee@gmail.com",
+        "hashedPassword": "$2b$10$70nZvBexuLNcyu/RBNPOoe.8PilLrQ7fRx3hA4O8ICzykoOyzRnuK",
+        "role": "Doctor",
+        "mobile": "09566492473",
+        "qualification": "MBBS",
+        "speciality": "Cardiology",
+        "address": "No 7, Church Street, Therasapu",
+        "ethAddress": null
+    },
+    "xpertieee1@gmail.com": {
+        "name": "Madhan M",
+        "mailId": "xpertieee1@gmail.com",
+        "hashedPassword": "$2b$10$IYBzpNjn4KOv9LMUYM56buLiseMZzSWWiV0nhNE60G7.JiWK.OukW",
+        "role": "Doctor",
+        "mobile": "09566492473",
+        "qualification": "MBBS",
+        "speciality": "Cardiology",
+        "address": "No 7, Church Street, Therasapu",
+        "ethAddress": null
+    },
+    "xpertieee2@gmail.com": {
+        "name": "Madhan M",
+        "mailId": "xpertieee2@gmail.com",
+        "hashedPassword": "$2b$10$AZ6QnK1kLDMEIIeFHZ0R3uKriPgOU7Avc.fsReCuVOTkJCSu/e27O",
+        "role": "Doctor",
+        "mobile": "09566492473",
+        "qualification": "MBBS",
+        "speciality": "Cardiology",
+        "address": "No 7, Church Street, Therasapu",
+        "ethAddress": null
+    },
+    "xpertieee5@gmail.com": {
+        "name": "Madhan M",
+        "mailId": "xpertieee5@gmail.com",
+        "hashedPassword": "$2b$10$Jx05NWap3jd39W6i3Emi1.Z/vsEliMn.LXaiyIM/WqXL7wFA3uKL6",
+        "role": "Doctor",
+        "mobile": "09566492473",
+        "qualification": "MBBS",
+        "speciality": "Cardiology",
+        "address": "No 7, Church Street, Therasapu",
+        "ethAddress": null
+    },
+    "norissjeevan@gmail.com": {
+        "name": "Noriss Jeevan",
+        "mailId": "norissjeevan@gmail.com",
+        "hashedPassword": "$2b$10$l9TdcjZSN/weMW8ec5tUAesmoHjG/OIbjqXrx999YvOrzSNaKs0fS",
+        "role": "Patient",
+        "mobile": "7868942252",
+        "age": "19",
+        "foodAllergy": "Yes",
+        "address": " chennai",
+        "healthIssue": "",
+        "ethAddress": null,
+        "records": []
+    },
+    "norissjeevan69@gmail.com": {
+        "name": "Harris",
+        "mailId": "norissjeevan69@gmail.com",
+        "hashedPassword": "$2b$10$Eoa1r66ELbfl9wUzTaz92OELM93QP57GEWsY7I4W7kVUaltyj4bze",
+        "role": "Doctor",
+        "mobile": "7868942252",
+        "qualification": "MBBS",
+        "speciality": "Cardiology",
+        "address": "Chennai",
+        "ethAddress": null
+    },
+    "jegan@gmail.com": {
+        "name": "jegan",
+        "mailId": "jegan@gmail.com",
+        "hashedPassword": "$2b$10$1JyAIR1LJo17Xn7eqJH5h.xnra7hnRXKY2gpvt8pcanGGISM0hM0C",
+        "role": "Patient",
+        "mobile": "7868942262",
+        "age": "12",
+        "foodAllergy": "Yes",
+        "address": "New Street ,Varadarajanpet ,Ariyalur",
+        "healthIssue": "",
+        "ethAddress": null,
+        "records": []
+    }
+}
