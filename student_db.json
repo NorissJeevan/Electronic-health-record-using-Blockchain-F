@@ -1,76 +1,84 @@
 {
-    "ABC123": {
-        "mailId": "madhan@gmail.com",
-        "hashedPassword": "$2b$10$TRyHIoHtOsAbt4Y3CbfOY.su2QQrh/olunvqmk/t9nF38eAUZXgJS",
-        "studentName": "Madhan",
-        "studentClass": "First Class",
-        "department": "ECE",
-        "yearOfPass": "2018",
-        "percentage": "9.2",
-        "certificates": []
-    },
-    "ABC122": {
-        "mailId": "kumar@gmail.com",
-        "hashedPassword": "$2b$10$iqjTHrL9L12qmLLeX3FCXOUarz6d3vDxu.q8iu6oq5DoAg0oxCs.C",
-        "studentName": "Kumar",
-        "studentClass": "First Class with Distinction",
-        "department": "ECE",
-        "yearOfPass": 2018,
-        "percentage": "9.2",
-        "certificates": []
-    },
-    "ABC124": {
-        "mailId": "ramesh@gmail.com",
-        "hashedPassword": "$2b$10$NVtvlf6qsQGwyT6ZlYU2JefSLKzI4bhsHV9AdBAMU2CDfa5NkYIXO",
-        "studentName": "ramesh",
-        "studentClass": "First Class with Distinction",
-        "department": "ECE",
-        "yearOfPass": 2018,
-        "percentage": "9.2",
-        "certificates": [
-            {
-                "certificateHash": "0x96ecb0cb3b8ae55ae45465944aaacd76655d1a6545ac23fbe7e55c4362080d2b",
-                "pdfFilePath": "/certificates/1758908100754-Simple_Agreement_(4).pdf",
-                "photoFilePath": "/imgs/1758908100756-team.png",
-                "qrCodePath": "/imgs/qrcodes/ABC124-1758908100759.png",
-                "blockchainTxHash": "0xa339d3e802a9428d423c52dda9710af70fc2d8cf30173d2e4deb9015f6efa367",
-                "issueTimestamp": "2025-09-26T17:35:01.041Z"
-            }
-        ]
-    },
-    "ABC125": {
-        "mailId": "sri@gmail.com",
-        "hashedPassword": "$2b$10$mVqPr7MACAi8rinj0RNl7.E4HHuSarCh3z/86bGgkijtpG4idszVG",
-        "studentName": "Sri",
-        "studentClass": "First Class",
-        "department": "CSE",
-        "yearOfPass": 2023,
-        "percentage": "9.1",
-        "certificates": [
-            {
-                "certificateHash": "0x7c1db03e9d4ed79d4cf01c3fbbb24dadc666a059c68b0f71db77888e5de7d838",
-                "pdfFilePath": "/certificates/1758915239429-legal.pdf",
-                "photoFilePath": "/imgs/1758915239430-admin.png",
-                "qrCodePath": "/imgs/qrcodes/ABC125-1758915239431.png",
-                "blockchainTxHash": "0x6a6e0f44e403b0fbccb05129caa63b2ee92a8df272f88a866b4da01f45fb154e",
-                "issueTimestamp": "2025-09-26T19:33:59.671Z"
-            },
-            {
-                "certificateHash": "0xb495fd2241e3caa088523ab775a8393c7eb81619a81649fdd12732d661e32dc8",
-                "pdfFilePath": "/certificates/1758915276329-Basepaper_-_Blood_Group_Deetction.pdf",
-                "photoFilePath": "/imgs/1758915276333-student.png",
-                "qrCodePath": "/imgs/qrcodes/ABC125-1758915276334.png",
-                "blockchainTxHash": "0xaae00e9c7e47cd373c188d81980aeb6d2b43ed3df0261375ca1f8a99712cdd30",
-                "issueTimestamp": "2025-09-26T19:34:36.467Z"
-            },
-            {
-                "certificateHash": "0x0f3603f6fc05a62e3d6da6556fe9e7f93d9e5a37a5bea2fce8cb328b5f4a66c6",
-                "pdfFilePath": "/certificates/1758915456837-2016_IEEE_Neha_BloodTyping.pdf",
-                "photoFilePath": "/imgs/1758915456842-verifier.png",
-                "qrCodePath": "/imgs/qrcodes/ABC125-1758915456844.png",
-                "blockchainTxHash": "0xadab1b320855abcfc7615f9dec1c2a2239a8ad77c8916da81a8b178ea1abbcbe",
-                "issueTimestamp": "2025-09-26T19:37:37.054Z"
-            }
-        ]
-    }
+  "ABC123": {
+    "mailId": "madhan@gmail.com",
+    "hashedPassword": "$2b$10$TRyHIoHtOsAbt4Y3CbfOY.su2QQrh/olunvqmk/t9nF38eAUZXgJS",
+    "studentName": "Madhan",
+    "studentClass": "First Class",
+    "department": "ECE",
+    "yearOfPass": "2018",
+    "percentage": "9.2",
+    "certificates": []
+  },
+  "ABC122": {
+    "mailId": "kumar@gmail.com",
+    "hashedPassword": "$2b$10$iqjTHrL9L12qmLLeX3FCXOUarz6d3vDxu.q8iu6oq5DoAg0oxCs.C",
+    "studentName": "Kumar",
+    "studentClass": "First Class with Distinction",
+    "department": "ECE",
+    "yearOfPass": 2018,
+    "percentage": "9.2",
+    "certificates": []
+  },
+  "ABC124": {
+    "mailId": "ramesh@gmail.com",
+    "hashedPassword": "$2b$10$NVtvlf6qsQGwyT6ZlYU2JefSLKzI4bhsHV9AdBAMU2CDfa5NkYIXO",
+    "studentName": "ramesh",
+    "studentClass": "First Class with Distinction",
+    "department": "ECE",
+    "yearOfPass": 2018,
+    "percentage": "9.2",
+    "certificates": [
+      {
+        "certificateHash": "0x96ecb0cb3b8ae55ae45465944aaacd76655d1a6545ac23fbe7e55c4362080d2b",
+        "pdfFilePath": "/certificates/1758908100754-Simple_Agreement_(4).pdf",
+        "photoFilePath": "/imgs/1758908100756-team.png",
+        "qrCodePath": "/imgs/qrcodes/ABC124-1758908100759.png",
+        "blockchainTxHash": "0xa339d3e802a9428d423c52dda9710af70fc2d8cf30173d2e4deb9015f6efa367",
+        "issueTimestamp": "2025-09-26T17:35:01.041Z"
+      }
+    ]
+  },
+  "ABC125": {
+    "mailId": "sri@gmail.com",
+    "hashedPassword": "$2b$10$mVqPr7MACAi8rinj0RNl7.E4HHuSarCh3z/86bGgkijtpG4idszVG",
+    "studentName": "Sri",
+    "studentClass": "First Class",
+    "department": "CSE",
+    "yearOfPass": 2023,
+    "percentage": "9.1",
+    "certificates": [
+      {
+        "certificateHash": "0x7c1db03e9d4ed79d4cf01c3fbbb24dadc666a059c68b0f71db77888e5de7d838",
+        "pdfFilePath": "/certificates/1758915239429-legal.pdf",
+        "photoFilePath": "/imgs/1758915239430-admin.png",
+        "qrCodePath": "/imgs/qrcodes/ABC125-1758915239431.png",
+        "blockchainTxHash": "0x6a6e0f44e403b0fbccb05129caa63b2ee92a8df272f88a866b4da01f45fb154e",
+        "issueTimestamp": "2025-09-26T19:33:59.671Z"
+      },
+      {
+        "certificateHash": "0xb495fd2241e3caa088523ab775a8393c7eb81619a81649fdd12732d661e32dc8",
+        "pdfFilePath": "/certificates/1758915276329-Basepaper_-_Blood_Group_Deetction.pdf",
+        "photoFilePath": "/imgs/1758915276333-student.png",
+        "qrCodePath": "/imgs/qrcodes/ABC125-1758915276334.png",
+        "blockchainTxHash": "0xaae00e9c7e47cd373c188d81980aeb6d2b43ed3df0261375ca1f8a99712cdd30",
+        "issueTimestamp": "2025-09-26T19:34:36.467Z"
+      },
+      {
+        "certificateHash": "0x0f3603f6fc05a62e3d6da6556fe9e7f93d9e5a37a5bea2fce8cb328b5f4a66c6",
+        "pdfFilePath": "/certificates/1758915456837-2016_IEEE_Neha_BloodTyping.pdf",
+        "photoFilePath": "/imgs/1758915456842-verifier.png",
+        "qrCodePath": "/imgs/qrcodes/ABC125-1758915456844.png",
+        "blockchainTxHash": "0xadab1b320855abcfc7615f9dec1c2a2239a8ad77c8916da81a8b178ea1abbcbe",
+        "issueTimestamp": "2025-09-26T19:37:37.054Z"
+      }
+    ]
+  },
+  "admin@example.com": {
+    "name": "Admin",
+    "mailId": "admin@example.com",
+    "hashedPassword": "$2b$10$m2lZLmN03FAY5ipOdFwE0OspmU1RTAFigqbJvzMqBIS.gtM788X.6",
+    "role": "Admin",
+    "mobile": "0000000000",
+    "ethAddress": null
+  }
 }

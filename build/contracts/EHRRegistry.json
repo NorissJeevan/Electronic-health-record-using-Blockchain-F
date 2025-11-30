@@ -9417,12 +9417,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x969fB44c5603111FfceB0554707B0033FaF977c5",
-      "transactionHash": "0x42eb75ffbb566c9685e99874864343f6215788678b03d7ef0891b77de218c0b9"
+      "address": "0xba4f74e642b84159aA21Db1d582d1b889ECC253A",
+      "transactionHash": "0xbd2e7547010cfa1e53d71aeacc2cb859f3d97a8f22fbcd96e20aa46f1db5741f"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-10-18T14:46:20.205Z",
+  "updatedAt": "2025-11-26T06:17:14.036Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "Manages user roles, health record hashes, and access permissions on the blockchain.",
